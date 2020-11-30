@@ -10,6 +10,7 @@ import Dashboard from './pages/admin/dashboard';
 import CrudCategorias from './pages/admin/crudcategorias';
 import CrudEventos from './pages/admin/crudeventos';
 
+import jwt_decode from 'jwt-decode'
 import * as reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
@@ -20,14 +21,28 @@ const RotaPrivada = ({component : Component, ...rest}) =>{
   <Route
     {...rest}
     render={
-      props => {
+      props => 
         localStorage.getItem('token-nyous') !== null ?
-        <Component {...props} /> : 
-        <Redirect to={{ pathname='login', state :{from : this.props.location}}}/>
-      }
+        (<Component {...props} />) : 
+        (<Redirect to={{ pathname :'/login', state :{from : props.location}}}/>)
+      
     }
   />
-}
+  };
+
+  const RotaPrivadaAdmin = ({component : Component, ...rest}) =>{
+  
+    <Route
+      {...rest}
+      render={
+        props => 
+          localStorage.getItem('token-nyous') !== null && jwt_decode(localStorage.getItem('token-nyous')).role === 'Admin' ?
+          (<Component {...props} />) : 
+          (<Redirect to={{ pathname :'/login', state :{from : props.location}}}/>)
+        
+      }
+    />
+    };
 
 const routing = () => {
   <Router>
@@ -36,10 +51,10 @@ const routing = () => {
         <Route exact path='/' component={Home}  />
         <Route path='/login' component={Login}/>
         <Route path='/cadastrar' component={Cadastrar} />
-        <Route path='/eventos' component={Eventos} />
-        <Route path='/admin/dashboard' component={Dashboard} />
-        <Route path='/admin/cadegorias' component={CrudCategorias} />
-        <Route path='/admin/eventos' component={CrudEventos} />
+        <RotaPrivada path='/eventos' component={Eventos} />
+        <RotaPrivadaAdmin path='/admin/dashboard' component={Dashboard} />
+        <RotaPrivadaAdmin path='/admin/cadegorias' component={CrudCategorias} />
+        <RotaPrivadaAdmin path='/admin/eventos' component={CrudEventos} />
         <Route component={NaoEncontrada} />
       </Switch>
     </div>

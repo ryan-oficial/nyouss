@@ -2,8 +2,9 @@ import React from 'react';
 import Rodape from '../../../components/rodape';
 import Menu from '../../../components/menu';
 
-const Dashboard = () => {
 
+const Dashboard = () => {
+    
     return(
         <div>
             <Menu />
