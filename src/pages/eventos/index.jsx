@@ -9,3 +9,5 @@ const Eventos = () => {
         </div>
     )
 }
+
+export default Eventos;

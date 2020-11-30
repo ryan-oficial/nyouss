@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {Form, Container, Button} from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import Menu from '../../components/menu';
 import Rodape from '../../components/rodape';
 import './index.css';
 
 const Login = () =>{
+    let history = useHistory();
 
     const [email, setEmail] = usaState('');
     conts [senha, setSenha] = useState('');
@@ -13,6 +16,43 @@ const Login = () =>{
         event.preventDefault();
 
         console.log('$(email) - $(senha)');
+
+        const login = {
+            email : email,
+            senha : senha
+
+        }
+
+        fetch('http://localhost:5000/account/login',{
+        method : 'POST',
+        body : JSON.stringfy({ login }),
+        header : {
+            'content-type' : 'application/json'
+        }
+        })
+        .then(response => {
+            if(response.ok === true){
+                return responde.json();
+            }
+            alert('Dados invalidos')
+        })
+        .then(data => {
+
+            localStorage.setItem('token-nyous', data.token)
+
+            let usuario = jwt_decode(data.token);
+
+            if(usuario.role === 'Admin'){
+                history.push('/admin/dashboard');
+            }else{
+                history.push('/eventos')
+            }
+                
+            console.log(usuario);
+
+            history.push("/eventos")
+        })
+        .catch(err => console.error(err))
     }
 
     return (

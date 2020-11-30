@@ -4,12 +4,32 @@ import './index.css';
 import Home from './pages/home';
 import Login from './pages/login';
 import Cadastrar from './pages/cadastrar';
+import Eventos from './pages/eventos';
+import NaoEncontrada from './pages/naoencontrada';
+import Dashboard from './pages/admin/dashboard';
+import CrudCategorias from './pages/admin/crudcategorias';
+import CrudEventos from './pages/admin/crudeventos';
 
 import * as reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
-const routing = {
+
+const RotaPrivada = ({component : Component, ...rest}) =>{
+  
+  <Route
+    {...rest}
+    render={
+      props => {
+        localStorage.getItem('token-nyous') !== null ?
+        <Component {...props} /> : 
+        <Redirect to={{ pathname='login', state :{from : this.props.location}}}/>
+      }
+    }
+  />
+}
+
+const routing = () => {
   <Router>
     <div>
       <Switch>
@@ -17,6 +37,9 @@ const routing = {
         <Route path='/login' component={Login}/>
         <Route path='/cadastrar' component={Cadastrar} />
         <Route path='/eventos' component={Eventos} />
+        <Route path='/admin/dashboard' component={Dashboard} />
+        <Route path='/admin/cadegorias' component={CrudCategorias} />
+        <Route path='/admin/eventos' component={CrudEventos} />
         <Route component={NaoEncontrada} />
       </Switch>
     </div>
