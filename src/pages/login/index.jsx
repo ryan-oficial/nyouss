@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {Form, Container, Button} from 'react-bootstrap';
+import {Form, Container, Button} from 'react-bootstrap'
 import { useHistory } from 'react-router-dom';
-import Menu from '../../components/menu';
-import Rodape from '../../components/rodape';
 import './index.css';
+import jwt_decode from 'jwt-decode';
+import Menu from '../../components/menu'
+import Rodape from '../../components/rodape'
+import {url} from '../../utils/constants';
 
 const Login = () =>{
     let history = useHistory();
@@ -23,7 +25,7 @@ const Login = () =>{
 
         }
 
-        fetch('http://localhost:5000/account/login',{
+        fetch(url + 'account/login',{
         method : 'POST',
         body : JSON.stringfy({ login }),
         header : {
