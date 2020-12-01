@@ -6,7 +6,7 @@ import { Container, Table, Button, Form, Card } from 'react-bootstrap/lib/Tab';
 import {url} from '../../../pages/utils/constants'
 import React, {useState} from 'react';
 import Rodape from '../../../components/rodape';
-import { Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap'
 
 const CrudCategorias = () => {
     const [id , setId] = useState(0);
